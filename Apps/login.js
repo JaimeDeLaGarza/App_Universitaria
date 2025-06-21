@@ -1,20 +1,23 @@
 const express = require('express');// Importa express
 // Importa las dependencias necesarias
 
-const sql = require('mssql/msnodesqlv8');// Importa mssql con el driver msnodesqlv8
+const sql = require('mssql');// Importa mssql con el driver mssql
 const cors = require('cors');// Importa cors para manejar las solicitudes CORS
 
 const app = express();// Crea una instancia de express
-// Configura la aplicación express
+// Configuracion la aplicación express
 app.use(cors());// Habilita CORS para permitir solicitudes desde otros dominios
 app.use(express.json());// Habilita el análisis de JSON en las solicitudes entrantes
 
 const dbConfig = {// Configuración de la base de datos
-  server: 'DESKTOP-DD24R23\\SQLEXPRESS',// Nombre del servidor de la base de datos
+  user: 'UDM',// Nombre del usuario
+  password: '1234',// Contrasena del usuario
+  server: 'localhost',// Nombre del servidor de la base de datos o sino localhoust
   database: 'miLogin',// Nombre de la base de datos
-  driver: 'msnodesqlv8',// Especifica el driver a usar
+  port: 1433,
   options: {// Opciones de conexión
-    trustedConnection: true // Usa una conexión confiable (sin autenticación de usuario y contraseña)
+    encrypt: false,               // No encripta en entorno local
+    trustServerCertificate: true // Evita error por certificados
   }// Termina las opciones de conexión
 };// Termina la configuración de la base de datos
 
@@ -28,6 +31,8 @@ app.post('/login', async (req, res) => {// Ruta para manejar el inicio de sesió
     const pool = await sql.connect(dbConfig);// Establece una conexión con la base de datos usando la configuración definida
     // Si la conexión es exitosa, crea un pool de conexiones
     // y permite realizar consultas a la base de datos
+
+    console.log('Solicitud recibida con número:', Numero); //crea un mensaje para saber si el servidor funciona
 
     const result = await pool.request()// Crea una solicitud para la base de datos
       .input('Numero', sql.VarChar, Numero)// Agrega un parámetro de entrada llamado 'Numero' con el tipo sql.VarChar y el valor del número de control recibido

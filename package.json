@@ -14,7 +14,6 @@
     "expo": "~53.0.12",
     "expo-status-bar": "~2.2.3",
     "express": "^5.1.0",
-    "msnodesqlv8": "^4.5.0",
     "mssql": "^11.0.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
