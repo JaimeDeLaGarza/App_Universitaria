@@ -1,59 +1,62 @@
-const express = require('express');// Importa express
-// Importa las dependencias necesarias
+import React, { useState } from 'react';// Importa React y useState para manejar el estado del componente
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';// Importa componentes de React Native para crear la interfaz de usuario
 
-const sql = require('mssql');// Importa mssql con el driver mssql
-const cors = require('cors');// Importa cors para manejar las solicitudes CORS
+export default function Login() {// Componente de inicio de sesión
+  const [numero_control, setNumeroControl] = useState('');// Crea un estado para almacenar el número de control ingresado por el usuario
 
-const app = express();// Crea una instancia de express
-// Configuracion la aplicación express
-app.use(cors());// Habilita CORS para permitir solicitudes desde otros dominios
-app.use(express.json());// Habilita el análisis de JSON en las solicitudes entrantes
+  const handleLogin = () => {// Función que maneja el inicio de sesión al presionar el botón
+    if (!numero_control.trim()) {// Verifica si el campo de número de control está vacío
+      alert("Por favor, ingresa tu número de control");// Si está vacío, muestra una alerta al usuario
+      return;// Termina la función si el campo está vacío
+    }// Si el campo no está vacío, continúa con la solicitud de inicio de sesión
 
-const dbConfig = {// Configuración de la base de datos
-  user: 'UDM',// Nombre del usuario
-  password: '1234',// Contrasena del usuario
-  server: 'localhost',// Nombre del servidor de la base de datos o sino localhoust
-  database: 'miLogin',// Nombre de la base de datos
-  port: 1433,
-  options: {// Opciones de conexión
-    encrypt: false,               // No encripta en entorno local
-    trustServerCertificate: true // Evita error por certificados
-  }// Termina las opciones de conexión
-};// Termina la configuración de la base de datos
+    fetch('http://192.168.2.131:3000/login', {// Realiza una solicitud POST a la API de inicio de sesión
+      method: 'POST',// Define el método de la solicitud como POST
+      headers: { 'Content-Type': 'application/json' },// Establece el encabezado Content-Type para indicar que se envían datos JSON
+      body: JSON.stringify({ Numero: numero_control })// Convierte el número de control a una cadena JSON para enviarlo en el cuerpo de la solicitud
+    })// Envía la solicitud a la API
+      .then(res => res.json())// Convierte la respuesta de la API a formato JSON
+      .then(data => {// Maneja la respuesta de la API
+        if (data.user) {// Verifica si la respuesta contiene un usuario
+          alert('Login exitoso');// Si se encuentra un usuario, muestra un mensaje de éxito
+        } else {// Si no se encuentra un usuario, muestra un mensaje de error
+          alert(data.message || 'Error en login');// Muestra el mensaje de error recibido de la API o un mensaje predeterminado
+        }// Termina el manejo de la respuesta exitosa
+      })// Maneja la respuesta de la API
+      .catch(() => alert('Error de conexión'));// Maneja cualquier error que ocurra durante la solicitud, mostrando un mensaje de error de conexión
+  };
 
-app.post('/login', async (req, res) => {// Ruta para manejar el inicio de sesión
-  // Maneja las solicitudes POST a la ruta /login
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>Bienvenido a la App UDM</Text>
+      <TextInput
+        placeholder="Numero de Control"
+        value={numero_control}
+        onChangeText={setNumeroControl}// Actualiza el estado numero_control al cambiar el texto
+        style={styles.input}// Crea un campo de entrada de texto para el número de control
+      />
+      <Button title="Ingresar" onPress={handleLogin} />
+    </View>
+  );
+}
 
-  const { Numero } = req.body;// Extrae el número de control del cuerpo de la solicitud
-  // Verifica si el número de control está presente
-
-  try {// Intenta conectarse a la base de datos y realizar la consulta
-    const pool = await sql.connect(dbConfig);// Establece una conexión con la base de datos usando la configuración definida
-    // Si la conexión es exitosa, crea un pool de conexiones
-    // y permite realizar consultas a la base de datos
-
-    console.log('Solicitud recibida con número:', Numero); //crea un mensaje para saber si el servidor funciona
-
-    const result = await pool.request()// Crea una solicitud para la base de datos
-      .input('Numero', sql.VarChar, Numero)// Agrega un parámetro de entrada llamado 'Numero' con el tipo sql.VarChar y el valor del número de control recibido
-      .query('SELECT * FROM [Numero de Control] WHERE Numero = @Numero');// Realiza una consulta SQL para seleccionar todos los registros de la tabla 'Numero de Control' donde el campo 'Numero' coincida con el número de control proporcionado
-
-    if (result.recordset.length > 0) {// Verifica si se encontraron registros en la consulta
-      return res.status(200).json({
-        message: 'Login exitoso',// Muestra un mensaje "login exitoso"
-        user: result.recordset[0]
-      });
-    } else {
-      return res.status(401).json({
-        message: 'Número de control no encontrado'
-      });
-    }
-  } catch (error) {
-    console.error('Error en la consulta:', error);
-    return res.status(500).json({
-      error: 'Error al conectar con la base de datos'
-    });
-  }
-});
-
-app.listen(3000,'0.0.0.0', () => console.log('✅ API corriendo en http://192.168.2.131'));
+const styles = StyleSheet.create({// Crea un objeto de estilos para aplicar a los componentes
+  container: {// Define los estilos para la vista contenedora
+    flex: 1,
+    backgroundColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {// Define los estilos para el texto de bienvenida
+    color: '#fff',
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  input: {// Define los estilos para el campo de entrada de texto
+    backgroundColor: '#fff',
+    width: 250,
+    height: 40,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+});// Termina el objeto de estilos
