@@ -39,7 +39,7 @@ Ingresa tus credenciales para acceder a la app.
 
 ## Contribuciones
 
-¡Las contribuciones son bienvenidas! Si deseas mejorar esta app, corregir errores o proponer nuevas funcionalidades, ve a la carpeta gia CONTRIBUTING.md ...
+¡Las contribuciones son bienvenidas! Si deseas mejorar esta app, corregir errores o proponer nuevas funcionalidades, ve a la carpeta guia CONTRIBUTING.md ...
 
 Licencia
 Este proyecto está licenciado bajo la GNU GPL v3.
