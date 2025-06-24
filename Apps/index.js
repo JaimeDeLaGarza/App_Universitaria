@@ -1,4 +1,4 @@
-import { registerRootComponent } from 'expo';
+import { registerRootComponent } from 'expo';// Importa la función registerRootComponent desde el paquete expo
 
 import App from './panInicio'; // Importa el componente principal de la aplicación desde panInicio.js
 export default App; // Exporta el componente App como el componente principal de la aplicación

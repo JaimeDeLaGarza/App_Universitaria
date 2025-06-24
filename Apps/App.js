@@ -25,6 +25,7 @@ const handleLogin = () => {// Define la función handleLogin que se ejecuta al p
     body: JSON.stringify({ Numero: numero_control })// Convierte el número de control a una cadena JSON para enviarlo en el cuerpo de la solicitud
 
   })
+
     .then(res => res.json())// Convierte la respuesta de la API a formato JSON
     .then(data => {// Maneja la respuesta de la API
       // Si la respuesta contiene un usuario, muestra un mensaje de bienvenida

@@ -8,14 +8,9 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-    "name": "App UDM",
-    "slug": "App-UDM",
-    "splash": {
-    "image": "./assets/UDMlogo.png",
-    "resizeMode": "contain",
-    "backgroundColor": "#ffffff"
-    }
-
+      "image": "./assets/UDMlogo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true
@@ -32,3 +27,5 @@
     }
   }
 }
+
+
