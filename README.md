@@ -6,6 +6,10 @@
 Aplicación móvil desarrollada con **React Native** y un backend en **Node.js + Express**, conectada a **SQL Server** mediante `tedious`.  
 Incluye una pantalla de bienvenida, autenticación de usuarios y navegación fluida entre pantallas.
 
+## Trabajando en 
+- secion de noticias
+- apartado de pase de lista ( solo profesores o jefes de grupos autorizados )
+
 ## Características
 
 - Pantalla de bienvenida con transición automática al login
@@ -27,7 +31,7 @@ Incluye una pantalla de bienvenida, autenticación de usuarios y navegación flu
    ```bash
    npm start
    
-Uso
+##Uso
 
 Abre la app en tu emulador o dispositivo físico.
 
